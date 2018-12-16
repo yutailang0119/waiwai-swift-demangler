@@ -74,3 +74,19 @@ extension Parser {
         return parseIdentifier()!
     }
 }
+
+extension Parser {
+
+    func parseDeclName() -> String {
+        return parseIdentifier()!
+    }
+
+    func parseLabelList() -> [String] {
+        var labelList: [String] = []
+        while let identifier = parseIdentifier() {
+            labelList.append(identifier)
+        }
+        return labelList
+    }
+
+}
