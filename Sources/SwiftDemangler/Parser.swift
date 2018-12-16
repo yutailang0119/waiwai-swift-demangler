@@ -142,3 +142,9 @@ extension Parser {
         return Type.list(types)
     }
 }
+
+extension Parser {
+    func parseFunctionSignature() -> FunctionSignature {
+        return FunctionSignature(returnType: parseType(), argsType: parseType())
+    }
+}
