@@ -148,3 +148,18 @@ extension Parser {
         return FunctionSignature(returnType: parseType(), argsType: parseType())
     }
 }
+
+extension Parser {
+    func parseFunctionEntity() -> FunctionEntity {
+        return FunctionEntity(module: parseModule(),
+                              declName: parseDeclName(),
+                              labelList: parseLabelList(),
+                              functionSignature: parseFunctionSignature())
+    }
+
+    func parse() -> FunctionEntity {
+        let _ = self.parsePrefix()
+        return self.parseFunctionEntity()
+    }
+
+}

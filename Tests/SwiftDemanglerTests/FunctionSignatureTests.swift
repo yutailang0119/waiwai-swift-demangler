@@ -10,10 +10,13 @@ import XCTest
 
 class FunctionSignatureTests: XCTestCase {
 
-    func testParseFunctionSignature() {
-        XCTAssertEqual(Parser(name: "SbSi_t").parseFunctionSignature(),
-                       FunctionSignature(returnType: .bool,
-                                         argsType: .list([.int]))
+    func testParseFunctionEntity() {
+        let sig = FunctionSignature(returnType: .bool, argsType: .list([.int]))
+        XCTAssertEqual(Parser(name: "13ExampleNumber6isEven6numberSbSi_tF").parseFunctionEntity(),
+                       FunctionEntity(module: "ExampleNumber",
+                                      declName: "isEven",
+                                      labelList: ["number"],
+                                      functionSignature: sig)
         )
     }
 
