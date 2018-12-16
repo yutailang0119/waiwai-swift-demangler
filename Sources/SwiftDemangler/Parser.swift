@@ -49,4 +49,11 @@ extension Parser {
         }
         return String(remains.prefix(upTo: String.Index(encodedOffset: length)))
     }
+
+    func parseIdentifier() -> String? {
+        guard let int = parseInt() else {
+            return nil
+        }
+        return parseIdentifier(length: int)
+    }
 }
