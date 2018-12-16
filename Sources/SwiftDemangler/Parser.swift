@@ -56,4 +56,21 @@ extension Parser {
         }
         return parseIdentifier(length: int)
     }
+
+}
+
+extension Parser {
+
+    func parsePrefix() -> String {
+        let symble = "$S"
+        guard name.hasPrefix(symble) else {
+            fatalError()
+        }
+        self.index = self.name.index(self.index, offsetBy: symble.count)
+        return symble
+    }
+
+    func parseModule() -> String {
+        return parseIdentifier()!
+    }
 }
