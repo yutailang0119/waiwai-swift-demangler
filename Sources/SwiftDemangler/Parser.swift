@@ -35,12 +35,18 @@ extension Parser {
         }) else {
             return nil
         }
-        
-        print(remains.prefix(upTo: index))
+
         guard let int = Int(remains.prefix(upTo: index)) else {
             return nil
         }
         self.index = self.name.index(self.index, offsetBy: int / 10 + 1)
         return int
+    }
+
+    func parseIdentifier(length: Int) -> String {
+        defer {
+            self.index = self.name.index(self.index, offsetBy: length)
+        }
+        return String(remains.prefix(upTo: String.Index(encodedOffset: length)))
     }
 }

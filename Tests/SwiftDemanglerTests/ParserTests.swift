@@ -39,4 +39,17 @@ class ParserTests: XCTestCase {
         XCTAssertEqual(parser.parseInt(), nil)
     }
 
+    func testParseIdentifier() {
+        let parser = Parser(name: "3ABC4DEFG")
+
+        XCTAssertEqual(parser.parseInt(), 3)
+        XCTAssertEqual(parser.remains, "ABC4DEFG")
+        XCTAssertEqual(parser.parseIdentifier(length: 3), "ABC")
+        XCTAssertEqual(parser.remains, "4DEFG")
+
+        XCTAssertEqual(parser.parseInt(), 4)
+        XCTAssertEqual(parser.remains, "DEFG")
+        XCTAssertEqual(parser.parseIdentifier(length: 4), "DEFG")
+    }
+
 }
