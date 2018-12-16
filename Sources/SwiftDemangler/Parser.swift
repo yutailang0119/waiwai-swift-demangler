@@ -97,12 +97,48 @@ extension Parser {
 
 extension Parser {
 
+    // indexはそのままに一文字先読みする
     func peek() -> String {
         return remains.first.map(String.init) ?? ""
     }
 
+     // length分だけindexを進める
     func skip(length: Int) {
         self.moveIndex(offsetBy: length)
     }
 
+}
+
+extension Parser {
+
+    func parseKnownType() -> Type {
+        guard peek() == "S" else {
+            fatalError()
+        }
+        switch parseIdentifier(length: 2) {
+        case "Sb":
+            return .bool
+        case "Si":
+            return .int
+        case "Sf":
+            return .float
+        case "SS":
+            return .string
+        default:
+            fatalError()
+        }
+    }
+
+    func parseType() -> Type {
+        let first = parseKnownType()
+        guard peek() == "_" else {
+            return first
+        }
+        skip(length: 1)
+        var types: [Type] = [first]
+        while peek() != "t" {
+            types.append(parseKnownType())
+        }
+        return Type.list(types)
+    }
 }
