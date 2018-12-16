@@ -19,6 +19,10 @@ internal class Parser {
         self.name = name
         self.index = name.startIndex
     }
+
+    private func moveIndex(offsetBy offset: Int) {
+        self.index = self.name.index(self.index, offsetBy: offset)
+    }
 }
 
 extension Parser {
@@ -39,13 +43,13 @@ extension Parser {
         guard let int = Int(remains.prefix(upTo: index)) else {
             return nil
         }
-        self.index = self.name.index(self.index, offsetBy: int / 10 + 1)
+        self.moveIndex(offsetBy: int / 10 + 1)
         return int
     }
 
     func parseIdentifier(length: Int) -> String {
         defer {
-            self.index = self.name.index(self.index, offsetBy: length)
+            self.moveIndex(offsetBy: length)
         }
         return String(remains.prefix(upTo: String.Index(encodedOffset: length)))
     }
@@ -66,7 +70,7 @@ extension Parser {
         guard name.hasPrefix(symble) else {
             fatalError()
         }
-        self.index = self.name.index(self.index, offsetBy: symble.count)
+        self.moveIndex(offsetBy: symble.count)
         return symble
     }
 
@@ -87,6 +91,18 @@ extension Parser {
             labelList.append(identifier)
         }
         return labelList
+    }
+
+}
+
+extension Parser {
+
+    func peek() -> String {
+        return remains.first.map(String.init) ?? ""
+    }
+
+    func skip(length: Int) {
+        self.moveIndex(offsetBy: length)
     }
 
 }
